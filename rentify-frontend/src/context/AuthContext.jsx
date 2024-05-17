@@ -4,7 +4,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const API_URL = process.env.REACT_APP_API_URL;
 
 const AuthContext = createContext();
 
@@ -25,7 +24,7 @@ const AuthProvider = ({ children }) => {
 
     const login = async (credentials) => {
         try {
-            const response = await axios.post(`${API_URL}/auth/login`, credentials);
+            const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
             const { token, user } = response.data;
             localStorage.setItem('token', token);
             localStorage.setItem('user', JSON.stringify(user));
@@ -42,7 +41,7 @@ const AuthProvider = ({ children }) => {
     
     const register = async (userData) => {
         try {
-            const response = await axios.post(`${API_URL}/auth/register`, userData);
+            const response = await axios.post('http://localhost:5000/api/auth/register', userData);
             console.log(response.data);
             toast.success('Registration successful!');
         } catch (error) {
@@ -61,7 +60,7 @@ const AuthProvider = ({ children }) => {
 
     const postProperty = async (propertyData) => {
         try {
-            const resp = await axios.post(`${API_URL}/properties`, propertyData); // Changed the endpoint to match backend route
+            const resp = await axios.post('http://localhost:5000/api/properties', propertyData); // Changed the endpoint to match backend route
             console.log(resp.data);
             toast.success('Property posted successfully');
         } catch (error) {
@@ -73,7 +72,7 @@ const AuthProvider = ({ children }) => {
 
     const updateProperty = async (id, propertyData) => {
         try {
-            await axios.put(`${API_URL}/properties/${id}`, propertyData);
+            await axios.put(`http://localhost:5000/api/properties/${id}`, propertyData);
             toast.success('Property updated successfully');
         } catch (error) {
             console.error('Failed to update property:', error);
@@ -83,7 +82,7 @@ const AuthProvider = ({ children }) => {
 
     const deleteProperty = async (id) => {
         try {
-            await axios.delete(`${API_URL}/properties/${id}`);
+            await axios.delete(`http://localhost:5000/api/properties/${id}`);
             toast.success('Property deleted successfully');
         } catch (error) {
             console.error('Failed to delete property:', error);
@@ -93,7 +92,7 @@ const AuthProvider = ({ children }) => {
 
     const fetchPropertiesExcludingUser = async () => {
         try {
-            const response = await axios.get(`${API_URL}/properties`);
+            const response = await axios.get('http://localhost:5000/api/properties');
             console.log(response.data);
             if (Array.isArray(response.data.properties)) {
                 const filteredProperties = response.data.properties.filter(property => user && property.seller !== user.id);
@@ -108,7 +107,7 @@ const AuthProvider = ({ children }) => {
 
     const fetchMyPosts = async () => {
         try {
-            const response = await axios.get(`${API_URL}/properties/my-posts`);
+            const response = await axios.get('http://localhost:5000/api/properties/my-posts');
             console.log(response.data);
             if (Array.isArray(response.data.properties)) {
                 setProperties(response.data.properties);

@@ -23,16 +23,9 @@ const PostProperty = () => {
         e.preventDefault();
         try {
             const response = await postProperty(propertyData);
-            if (response.status === 201) {
-                console.log('Response:', response.data);
-                toast.success('Property posted successfully');
-                navigate('/');
-            } else {
-                toast.error('Failed to post property');
-            }
+            console.log(response);
         } catch (error) {
             console.error('Failed to post property:', error);
-            toast.error('Failed to post property');
         }
     };
     
